@@ -4,6 +4,7 @@
 #include<string>
 #include "HuffmanNode.h"
 #include <queue>
+#include <map>
 using namespace std;
 
 struct compare {
@@ -16,14 +17,12 @@ class HuffmanTree{
 	
 public:
 	HuffmanTree();
-	~HuffmanTree();
-	int getFreq();
-	void HuffmanCode();
+	void build(map <char, int> &freq);
+	map <char, int> mapCodes(HuffmanNode *root);
 private:
 	HuffmanNode * root;
-	HuffmanTree(const HuffmanTree &);
-	void print(HuffmanNode *node, int) const;
-	priority_queue <HuffmanNode, vector<HuffmanNode>, compare > min_heap;
+	priority_queue <HuffmanNode*, vector<HuffmanNode*>, compare > min_heap;
 	void HuffmanCode(char data[], int freq[], int size);
+	void printCodes(HuffmanNode *root,string str);
 };
 

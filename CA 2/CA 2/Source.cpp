@@ -17,6 +17,10 @@ int main() {
 
 	print(freqs);
 
+	HuffmanTree newTree;
+
+	newTree.build(freqs);
+
 	system("Pause");
 	return 0;
 }
