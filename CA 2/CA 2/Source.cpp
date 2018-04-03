@@ -21,6 +21,8 @@ int main() {
 
 	newTree.build(freqs);
 
+	newTree.decode();
+	
 	system("Pause");
 	return 0;
 }

@@ -10,7 +10,7 @@ public:
 	HuffmanNode() {
 		
 	}
-	HuffmanNode(string contentIn, int freqIn) {
+	HuffmanNode(char contentIn, int freqIn) {
 		content = contentIn;
 		frequency = freqIn;
 	}
@@ -21,6 +21,6 @@ private:
 	HuffmanNode *leftChild;
 	HuffmanNode *rightChild;
 	int frequency;
-	string content;
+	char content;
 	string code;
 };

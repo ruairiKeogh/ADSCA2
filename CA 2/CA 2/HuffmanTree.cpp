@@ -1,4 +1,5 @@
 #include<iostream>
+#include <fstream> 
 #include<vector>
 #include<string>
 #include "HuffmanTree.h"
@@ -12,7 +13,8 @@ HuffmanTree::HuffmanTree() {
 
 void HuffmanTree::build(map <char, int> &freq) {
 	HuffmanNode *left, *right, *top;
-	
+	map<char, string> mappings = map<char, string>();
+
 	for (auto elem : freq)
 	{
 		HuffmanNode *node = new HuffmanNode();;
@@ -31,37 +33,76 @@ void HuffmanTree::build(map <char, int> &freq) {
 		min_heap.pop();
 
 
-		top = new HuffmanNode("$", left->frequency + right->frequency);
+		top = new HuffmanNode('$', left->frequency + right->frequency);
 
 		top->leftChild = left;
 		top->rightChild = right;
 
 		min_heap.push(top);
 	}
+	root = min_heap.top();
+	mappings = printCodes(min_heap.top(), "");
 
-	printCodes(min_heap.top(), "");
+	encode(mappings);
 }
 
-void HuffmanTree::printCodes(HuffmanNode* root, string str)
+map <char, string> HuffmanTree::printCodes(HuffmanNode* root, string str)
 {
-	
 	if (!root)
-		return;
+		return mappings;
 
-	if (root->content != "$")
+	if (root->content != '$')
 		cout << root->content << ": " << str << "\n";
 
 	printCodes(root->leftChild, str + "0");
 	printCodes(root->rightChild, str + "1");
-	if (root->content != "$") {
+	if (root->content != '$') {
 		string code = str;
 		root->code = code;
+		mappings.insert(pair<char, string>(root->content, root->code));
 		cout << "Stored Code for: " << root->content << " is: " << root->code << "\n";
 	}
-		
+
+	return mappings;
 }
 
+void HuffmanTree::encode(map<char,string> &mappings) {
+	ifstream file("testText.txt");
+	ofstream outfile("encoded.txt");
+	char c;
+	while (file.get(c)) {
+		for (auto elem : mappings) {
+			if (c == elem.first) {
+				outfile << elem.second;
+			}
+		}
+	}
 
-map <char, int> HuffmanTree::mapCodes(HuffmanNode *root) {
+	outfile.close();
+}
 
+void HuffmanTree::decode() {
+	ifstream file("encoded.txt");
+	ofstream newFile("decoded.txt");
+	decode(root, file, newFile);
+}
+
+void HuffmanTree::decode(HuffmanNode *root, ifstream &file, ofstream &newFile) {
+	char c;
+	HuffmanNode *curr = root;
+	while (file.get(c)) {
+		if (c == '0') {
+			curr = curr->leftChild;
+		}
+		else if (c == '1') {
+			curr = curr->rightChild;
+		}
+
+		if (curr->leftChild == NULL && curr->rightChild == NULL) {
+			newFile << curr->content;
+			curr = root;
+		}
+	}
+
+	newFile.close();
 }
