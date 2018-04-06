@@ -5,12 +5,21 @@
 #include "HuffmanTree.h"
 #include <queue>
 #include <map>
+#include <bitset>
 using namespace std;
 
 HuffmanTree::HuffmanTree() {
 
 }
 
+/***************************************************************************************
+*    Title: <Greedy Algorithms | Set 3 (Huffman Coding)>
+*    Author: <GeeksforGeeks>
+*    Date: <NA>
+*    Code version: <C++11:>
+*    Availability: <https://www.geeksforgeeks.org/greedy-algorithms-set-3-huffman-coding/>
+*
+***************************************************************************************/
 void HuffmanTree::build(map <char, int> &freq) {
 	HuffmanNode *left, *right, *top;
 	map<char, string> mappings = map<char, string>();
@@ -77,7 +86,7 @@ void HuffmanTree::encode(map<char,string> &mappings) {
 			}
 		}
 	}
-
+	file.close();
 	outfile.close();
 }
 
@@ -99,10 +108,63 @@ void HuffmanTree::decode(HuffmanNode *root, ifstream &file, ofstream &newFile) {
 		}
 
 		if (curr->leftChild == NULL && curr->rightChild == NULL) {
-			newFile << curr->content;
-			curr = root;
+			
+			if (curr->content == 256) {
+				return;
+			}
+			else {
+				newFile << curr->content;
+				curr = root;
+			}
 		}
 	}
 
+	file.close();
 	newFile.close();
+}
+
+/***************************************************************************************
+*    Title: <Convert a string of binary into an ASCII string (C++)>
+*    Author: <Dale Wilson>
+*    Date: <Apr 28 '14 at 15:19>
+*    Code version: <C++11:>
+*    Availability: <https://stackoverflow.com/questions/23344257/convert-a-string-of-binary-into-an-ascii-string-c>
+*
+***************************************************************************************/
+
+void HuffmanTree::compress() {
+	ifstream file("encoded.txt");
+	ofstream outFile("compressed.txt");
+	
+	while (file.good()) {
+		bitset<8> bits;
+		file >> bits;
+		char c = char(bits.to_ulong());
+		outFile << c;
+	}
+	
+	outFile.close();
+	file.close();
+}
+
+/***************************************************************************************
+*    Title: <Convert a string of binary into an ASCII string (C++)>
+*    Author: <Dale Wilson>
+*    Date: <Apr 28 '14 at 15:19>
+*    Code version: <C++11:>
+*    Availability: <https://codereview.stackexchange.com/questions/2661/simple-text-to-binary-converter-written-in-c>
+*
+***************************************************************************************/
+void HuffmanTree::decompress() {
+	ifstream file("compressed.txt");
+	ofstream newFile("decompressed.txt");
+	char c;
+	
+	while (file.get(c)) {
+		bitset <8> binary(c);
+		newFile << binary;
+	}
+	
+	newFile.close();
+	file.close();
 }

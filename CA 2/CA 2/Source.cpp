@@ -23,12 +23,24 @@ int main() {
 
 	newTree.decode();
 	
+	newTree.compress();
+
+	newTree.decompress();
+
+	file.close();
 	system("Pause");
 	return 0;
 }
 
 // Part 1. Calculating frequency of each character and storing to map of char and int.
-// Referenced from GLalor GitHub account RIP
+/***************************************************************************************
+*    Title: <Counting characters in the given string using C++ STL map>
+*    Author: <Ravi Chandra Enaganti>
+*    Date: <Tuesday, May 7, 2013>
+*    Code version: <C++11:>
+*    Availability: <http://comproguide.blogspot.ie/2013/05/counting-characters-in-given-string.html>
+*
+***************************************************************************************/
 void calcFreq(map <char, int> &freq, ifstream &file) {
 	char c;
 	while (file.get(c)) {
@@ -43,6 +55,7 @@ void calcFreq(map <char, int> &freq, ifstream &file) {
 			freq.insert(pair<char, int >(c, 1));
 		}
 	}
+	freq.insert(pair<char,int>(256,1));
 }
 
 void print(map <char, int> &freq) {

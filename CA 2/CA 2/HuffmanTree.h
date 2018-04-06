@@ -20,6 +20,8 @@ public:
 	HuffmanTree();
 	void build(map <char, int> &freq);
 	void decode();
+	void compress();
+	void decompress();
 private:
 	HuffmanNode * root;
 	priority_queue <HuffmanNode*, vector<HuffmanNode*>, compare > min_heap;
@@ -27,5 +29,6 @@ private:
 	map<char,string> printCodes(HuffmanNode *root,string str);
 	void encode(map<char, string> &mappings);
 	void decode(HuffmanNode *root, ifstream &file, ofstream &newFile);
+	
 };
 
