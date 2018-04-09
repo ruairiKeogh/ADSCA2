@@ -55,7 +55,6 @@ void calcFreq(map <char, int> &freq, ifstream &file) {
 			freq.insert(pair<char, int >(c, 1));
 		}
 	}
-	freq.insert(pair<char,int>(256,1));
 }
 
 void print(map <char, int> &freq) {

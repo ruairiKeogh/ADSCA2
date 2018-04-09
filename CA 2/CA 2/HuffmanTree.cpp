@@ -49,6 +49,7 @@ void HuffmanTree::build(map <char, int> &freq) {
 
 		min_heap.push(top);
 	}
+
 	root = min_heap.top();
 	mappings = printCodes(min_heap.top(), "");
 
@@ -86,6 +87,7 @@ void HuffmanTree::encode(map<char,string> &mappings) {
 			}
 		}
 	}
+
 	file.close();
 	outfile.close();
 }
@@ -108,14 +110,8 @@ void HuffmanTree::decode(HuffmanNode *root, ifstream &file, ofstream &newFile) {
 		}
 
 		if (curr->leftChild == NULL && curr->rightChild == NULL) {
-			
-			if (curr->content == 256) {
-				return;
-			}
-			else {
-				newFile << curr->content;
-				curr = root;
-			}
+			newFile << curr->content;
+			curr = root;
 		}
 	}
 
@@ -142,6 +138,7 @@ void HuffmanTree::compress() {
 		char c = char(bits.to_ulong());
 		outFile << c;
 	}
+	outFile << '¨';
 	
 	outFile.close();
 	file.close();
@@ -161,10 +158,28 @@ void HuffmanTree::decompress() {
 	char c;
 	
 	while (file.get(c)) {
+		if (c == '¨') {
+			newFile.close();
+			file.close();
+
+			ifstream decFile("decompressed.txt");
+			ofstream lastFile("LastFile.txt");
+			decode(root, decFile, lastFile);
+
+			decFile.close();
+			lastFile.close();
+			return;
+		}
 		bitset <8> binary(c);
 		newFile << binary;
 	}
-	
 	newFile.close();
 	file.close();
+
+	ifstream decFile("decompressed.txt");
+	ofstream lastFile("LastFile.txt");
+	decode(root, decFile,lastFile);
+
+	decFile.close();
+	lastFile.close();
 }
