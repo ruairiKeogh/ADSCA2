@@ -1,1 +1,5 @@
-What is Lorem IpsusL
+You are required to carry out the tasks below in order to develop an optimal Huffman Tree with
+which to compress a file of ASCII text. You will be expected to make use of the relevant template
+classes in the STL.
+You should aim to complete the first section of this problem (i.e. the steps 1 through 5 below). Once
+you have completed tasks 1-5 sections complete the other sections 6 & 7d sv
